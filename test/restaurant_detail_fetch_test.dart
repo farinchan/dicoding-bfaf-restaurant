@@ -75,7 +75,7 @@ void main() {
       });
 
       test(
-        'should handle error when fetching restaurant list fails',
+        'should handle error when fetching restaurant detail fails',
         () async {
           when(() => mockRepository.getDetailRestaurant("zvf11c0sukfw1e867"))
               .thenThrow(Exception('Failed to load restaurant details'));
