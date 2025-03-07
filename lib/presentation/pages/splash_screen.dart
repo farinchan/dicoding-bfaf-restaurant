@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatelessWidget {
-  static const String name = '/splash';
+  static const String route = '/splash';
   const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 4), () {
-      context.go(BottomNav.name);
+      context.go(BottomNav.route);
     });
 
     return Scaffold(

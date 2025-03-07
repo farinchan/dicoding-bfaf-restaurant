@@ -1,5 +1,5 @@
+import 'package:dicoding_submission_restaurant/presentation/pages/setting_page.dart';
 import 'package:dicoding_submission_restaurant/presentation/providers/home/restaurant_list_provider.dart';
-import 'package:dicoding_submission_restaurant/presentation/providers/theme/theme_provider.dart';
 import 'package:dicoding_submission_restaurant/presentation/widgets/restaurant_item.dart';
 import 'package:dicoding_submission_restaurant/core/utils/restaurant_list_result_state.dart';
 import 'package:flutter/material.dart';
@@ -33,24 +33,11 @@ class _HomePageState extends State<HomePage> {
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         actions: [
-          Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Consumer<ThemeProvider>(
-                builder: (context, value, child) => GestureDetector(
-                  onTap: () => value.toggleTheme = value.isDark,
-                  child: value.isDark
-                      ? Icon(
-                          Icons.nightlight_round,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 24.0,
-                        )
-                      : Icon(
-                          Icons.wb_sunny,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 24.0,
-                        ),
-                ),
-              )),
+          IconButton(
+              onPressed: () {
+                context.go(SettingPage.route);
+              },
+              icon: Icon(Icons.settings)),
         ],
       ),
       body: Padding(

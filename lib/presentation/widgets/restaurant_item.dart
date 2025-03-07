@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 class RestaurantItem extends StatelessWidget {
   final Restaurant restaurant;
   final Function() onTap;
+  final Function()? onDelete;
   const RestaurantItem(
-      {super.key, required this.restaurant, required this.onTap});
+      {super.key,
+      required this.restaurant,
+      required this.onTap,
+      this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -36,59 +40,74 @@ class RestaurantItem extends StatelessWidget {
               dimension: 8,
             ),
             Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  restaurant.name,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox.square(
-                  dimension: 6,
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/location.png',
-                      width: 14,
-                      height: 14,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          restaurant.name,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox.square(
+                          dimension: 6,
+                        ),
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/icons/location.png',
+                              width: 14,
+                              height: 14,
+                            ),
+                            const SizedBox.square(
+                              dimension: 4,
+                            ),
+                            Expanded(
+                              child: Text(
+                                restaurant.city,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/icons/star.png',
+                              width: 14,
+                              height: 14,
+                            ),
+                            const SizedBox.square(
+                              dimension: 4,
+                            ),
+                            Expanded(
+                                child: Text(
+                              restaurant.rating.toString(),
+                              style: Theme.of(context).textTheme.bodyLarge,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ))
+                          ],
+                        )
+                      ],
                     ),
-                    const SizedBox.square(
-                      dimension: 4,
-                    ),
-                    Expanded(
-                      child: Text(
-                        restaurant.city,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/star.png',
-                      width: 14,
-                      height: 14,
-                    ),
-                    const SizedBox.square(
-                      dimension: 4,
-                    ),
-                    Expanded(
-                        child: Text(
-                      restaurant.rating.toString(),
-                      style: Theme.of(context).textTheme.bodyLarge,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ))
-                  ],
-                )
-              ],
-            ))
+                  ),
+                  onDelete != null
+                      ? IconButton(
+                          onPressed: onDelete,
+                          icon: Icon(
+                            Icons.delete,
+                            color: Theme.of(context).colorScheme.error,
+                          ))
+                      : const SizedBox.shrink(),
+                ],
+              ),
+            )
           ],
         ),
       ),

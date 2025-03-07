@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:dicoding_submission_restaurant/core/utils/restaurant_detail_result_state.dart';
-import 'package:dicoding_submission_restaurant/presentation/pages/bottom_nav.dart';
+import 'package:dicoding_submission_restaurant/data/models/response/restaurant.dart';
 import 'package:dicoding_submission_restaurant/presentation/providers/detail/restaurant_detail_provider.dart';
+import 'package:dicoding_submission_restaurant/presentation/providers/favorite/restaurant_favorite_list_provider.dart';
 import 'package:dicoding_submission_restaurant/presentation/widgets/food_drink_item.dart';
 import 'package:dicoding_submission_restaurant/presentation/widgets/review_item.dart';
 import 'package:dicoding_submission_restaurant/presentation/widgets/review_dialog.dart';
@@ -11,7 +14,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class DetailPage extends StatefulWidget {
-  static const String name = '/detail';
+  static const String route = '/detail';
   final String id;
   const DetailPage({super.key, required this.id});
 
@@ -30,12 +33,17 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final favoriteProvider =
+        Provider.of<RestaurantFavoriteListProvider>(context, listen: false);
+
     return Scaffold(
         body: SingleChildScrollView(
           child: ConstrainedBox(
               constraints: BoxConstraints(),
               child: Consumer<RestaurantDetailProvider>(
                 builder: (context, value, child) {
+                  bool isFavorite = favoriteProvider.Restaurantfavorites.any(
+                      (r) => r.id == widget.id);
                   return switch (value.resultState) {
                     RestaurantDetailLoadingState() => LinearProgressIndicator(),
                     RestaurantDetailLoadedState(data: var restaurant) => Column(
@@ -59,7 +67,7 @@ class _DetailPageState extends State<DetailPage> {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 16),
                                       child: GestureDetector(
-                                        onTap: () => context.go(BottomNav.name),
+                                        onTap: () => context.pop(),
                                         child: Container(
                                           width: 40,
                                           height: 40,
@@ -80,6 +88,82 @@ class _DetailPageState extends State<DetailPage> {
                                         ),
                                       ),
                                     ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 16),
+                                      child: Consumer<
+                                          RestaurantFavoriteListProvider>(
+                                        builder:
+                                            (context, favoriteProvider, child) {
+                                          return Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 16),
+                                            child: GestureDetector(
+                                              onTap: () async {
+                                                if (favoriteProvider.isLoading)
+                                                  return;
+                                                if (isFavorite) {
+                                                  log('remove from favorite restaurant: ${restaurant}');
+                                                  await favoriteProvider
+                                                      .removeFromFavorites(
+                                                          restaurant.id);
+                                                  isFavorite = !isFavorite;
+                                                } else {
+                                                  log('add to favorite restaurant: ${restaurant.name}');
+                                                  await favoriteProvider
+                                                      .addToFavorites(
+                                                          Restaurant(
+                                                    id: restaurant.id,
+                                                    name: restaurant.name,
+                                                    description:
+                                                        restaurant.description,
+                                                    pictureId:
+                                                        restaurant.pictureId,
+                                                    city: restaurant.city,
+                                                    rating: restaurant.rating,
+                                                  ));
+                                                  isFavorite = !isFavorite;
+                                                  ScaffoldMessenger.of(context)
+                                                      .clearSnackBars();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(
+                                                    content: Text(
+                                                        'Added to favorite'),
+                                                    duration: const Duration(
+                                                        seconds: 1),
+                                                    behavior: SnackBarBehavior
+                                                        .floating,
+                                                    backgroundColor:
+                                                        const Color.fromARGB(
+                                                            255, 7, 197, 105),
+                                                  ));
+                                                }
+                                              },
+                                              child: Container(
+                                                width: 40,
+                                                height: 40,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimary),
+                                                child: Center(
+                                                  child: Icon(
+                                                    isFavorite
+                                                        ? Icons.favorite
+                                                        : Icons.favorite_border,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),

@@ -61,7 +61,7 @@ class _SearchPageState extends State<SearchPage> {
                 padding: const EdgeInsets.only(right: 16),
                 child: Consumer<ThemeProvider>(
                   builder: (context, value, child) => GestureDetector(
-                    onTap: () => value.toggleTheme = value.isDark,
+                    onTap: () => value.setTheme(),
                     child: value.isDark
                         ? Icon(
                             Icons.nightlight_round,

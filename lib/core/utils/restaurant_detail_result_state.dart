@@ -1,4 +1,3 @@
-
 import 'package:dicoding_submission_restaurant/data/models/response/restaurant_detail.dart';
 
 sealed class RestaurantDetailResultState {}
