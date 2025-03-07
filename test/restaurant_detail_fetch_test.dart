@@ -1,9 +1,7 @@
-import 'package:dicoding_submission_restaurant/core/services/http_service.dart';
 import 'package:dicoding_submission_restaurant/core/utils/restaurant_detail_result_state.dart';
 import 'package:dicoding_submission_restaurant/data/datasources/remote_datasource.dart';
 import 'package:dicoding_submission_restaurant/data/models/response/restaurant_detail.dart';
 import 'package:dicoding_submission_restaurant/presentation/providers/detail/restaurant_detail_provider.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -11,8 +9,6 @@ class MockRestaurantRepository extends Mock implements RemoteDatasource {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  const MethodChannel channel =
-      MethodChannel('plugins.flutter.io/path_provider');
 
   late RestaurantDetailProvider provider;
   late MockRestaurantRepository mockRepository;

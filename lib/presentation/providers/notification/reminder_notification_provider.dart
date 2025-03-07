@@ -1,7 +1,6 @@
 import 'dart:developer' as dev;
 import 'dart:math';
 
-import 'package:dicoding_submission_restaurant/core/services/local_notification_service.dart';
 import 'package:dicoding_submission_restaurant/core/services/workermanager_service.dart';
 import 'package:dicoding_submission_restaurant/data/datasources/local/reminder_local_data_source.dart';
 import 'package:dicoding_submission_restaurant/data/datasources/remote_datasource.dart';
