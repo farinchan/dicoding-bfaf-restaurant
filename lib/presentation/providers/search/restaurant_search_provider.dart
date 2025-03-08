@@ -19,7 +19,8 @@ class RestaurantSearchProvider extends ChangeNotifier {
       final result = await _remoteDatasource.searchRestaurant(query);
 
       if (result.error) {
-        _resultState = RestaurantSearchErrorState(error: 'Something went wrong!');
+        _resultState =
+            RestaurantSearchErrorState(error: 'Something went wrong!');
         notifyListeners();
       } else {
         _resultState = RestaurantSearchLoadedState(data: result);

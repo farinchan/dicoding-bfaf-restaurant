@@ -13,11 +13,11 @@ void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     try {
       tz.initializeTimeZones();
-      tz.setLocalLocation(tz.getLocation('Asia/Jakarta')); // Sesuaikan dengan zona waktu
+      tz.setLocalLocation(
+          tz.getLocation('Asia/Jakarta')); // Sesuaikan dengan zona waktu
 
       final localNotificationService = LocalNotificationService(HttpService());
       final remoteDatasource = RemoteDatasource();
-
 
       final randomRestaurant = await remoteDatasource.getListRestaurant();
       if (randomRestaurant.restaurants.isNotEmpty) {

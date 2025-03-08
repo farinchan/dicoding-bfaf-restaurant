@@ -18,8 +18,16 @@ void main() {
   });
 
   group(
-    'RestaurantProvider - fetchRestaurantList',
+    'RestaurantListProvider - fetchRestaurantList',
     () {
+      test(
+        'should return restaurant list initial state',
+        () {
+          expect(restaurantListProvider.resultState,
+              isA<RestaurantListNoneState>());
+        },
+      );
+
       test(
         'should fetch restaurant list successfully',
         () async {

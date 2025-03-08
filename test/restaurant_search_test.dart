@@ -18,8 +18,15 @@ void main() {
   });
 
   group(
-    'RestaurantProvider - searchRestaurants',
+    'RestaurantSearchProvider - searchRestaurants',
     () {
+      test(
+        'should return search restaurants initial state',
+        () {
+          expect(restaurantSearchProvider.resultState,
+              isA<RestaurantSearchNoneState>());
+        },
+      );
       test(
         'should search restaurants successfully',
         () async {

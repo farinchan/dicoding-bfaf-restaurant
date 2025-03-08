@@ -1,7 +1,5 @@
 import 'package:dicoding_submission_restaurant/core/services/local_notification_service.dart';
-import 'package:dicoding_submission_restaurant/core/services/workermanager_service.dart';
 import 'package:dicoding_submission_restaurant/data/models/notification/received_notification.dart';
-import 'package:dicoding_submission_restaurant/data/models/response/restaurant.dart';
 import 'package:dicoding_submission_restaurant/presentation/providers/notification/local_notification_provider.dart';
 import 'package:dicoding_submission_restaurant/presentation/providers/notification/payload_provider.dart';
 import 'package:dicoding_submission_restaurant/presentation/providers/notification/reminder_notification_provider.dart';
@@ -36,30 +34,12 @@ class _SettingPageState extends State<SettingPage> {
     });
   }
 
-  void _runBackgroundOneOffTask() async {
-    context.read<WorkmanagerService>().runOneOffTask();
-  }
-
-  void _runBackgroundPeriodicTask() async {
-    context.read<WorkmanagerService>().runPeriodicTask();
-  }
-
-  void _cancelAllTaskInBackground() async {
-    context.read<WorkmanagerService>().cancelAllTask();
-  }
-
   Future<void> _requestPermission() async {
     context.read<LocalNotificationProvider>().requestPermissions();
   }
 
   Future<void> _reminderNotificationProvider(bool value) async {
     context.read<ReminderNotificationProvider>().setReminderStatus(value);
-  }
-
-  Future<void> _scheduleDailyElevenAMNotification(Restaurant restaurant) async {
-    context
-        .read<LocalNotificationProvider>()
-        .scheduleDailyElevenAMNotification(restaurant);
   }
 
   Future<void> _checkPendingNotificationRequests() async {
@@ -184,18 +164,17 @@ class _SettingPageState extends State<SettingPage> {
                           await _requestPermission();
                           await _reminderNotificationProvider(value);
                           if (value) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text(
-                                    "Reminder notification has been set")),
-                          );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text(
+                                      "Reminder notification has been set")),
+                            );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                   content: Text(
                                       "Reminder notification has been canceled")),
                             );
-                            
                           }
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(

@@ -21,6 +21,10 @@ void main() {
   group(
     'RestaurantDetailProvider - fetchRestaurantDetail',
     () {
+      test("should return restaurant detail initial state", () {
+        expect(provider.resultState, isA<RestaurantDetailNoneState>());
+      });
+
       test('should fetch restaurant detail successfully', () async {
         final mockRestaurantDetail = RestaurantDetail(
           error: false,
